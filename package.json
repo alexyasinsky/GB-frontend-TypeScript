@@ -1,0 +1,24 @@
+{
+  "name": "gb-frontend-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc src/index.ts --outDir dist --target es2015",
+    "start": "node dist/."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexyasinsky/GB-frontend-TypeScript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexyasinsky/GB-frontend-TypeScript/issues"
+  },
+  "homepage": "https://github.com/alexyasinsky/GB-frontend-TypeScript#readme",
+  "devDependencies": {
+    "typescript": "^4.8.3"
+  }
+}

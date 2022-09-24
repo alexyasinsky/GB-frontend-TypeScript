@@ -1,8 +1,11 @@
 import { renderBlock } from './lib.js';
 
-import {currentDate, lastDayOfNextMonthDate} from './date.js'
+import {currentDate, lastDayOfNextMonthDate, getDayAfterTomorrowDate} from './date.js';
 
-export function renderSearchFormBlock (dateOfEntry : string=currentDate, departureDate: string=lastDayOfNextMonthDate) : void {
+
+
+export function renderSearchFormBlock (checkInDate : string=currentDate, checkOutDate: string=lastDayOfNextMonthDate) : void {
+  const dayAfterTomorrowDate = getDayAfterTomorrowDate(currentDate);
   renderBlock(
     'search-form-block',
     `
@@ -17,16 +20,16 @@ export function renderSearchFormBlock (dateOfEntry : string=currentDate, departu
           <!--<div class="providers">
             <label><input type="checkbox" name="provider" value="homy" checked /> Homy</label>
             <label><input type="checkbox" name="provider" value="flat-rent" checked /> FlatRent</label>
-          </div>--!>
+          </div>-->
         </div>
         <div class="row">
           <div>
             <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value=${dateOfEntry} min="2021-05-11" max="2021-06-30" name="checkin" />
+            <input id="check-in-date" type="date" value=${checkInDate} min=${checkInDate} max=${checkOutDate} name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value=${departureDate} min="2021-05-11" max="2021-06-30" name="checkout" />
+            <input id="check-out-date" type="date" value=${dayAfterTomorrowDate} min=${checkInDate} max=${checkOutDate} name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>

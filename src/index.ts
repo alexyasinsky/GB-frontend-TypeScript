@@ -7,11 +7,12 @@ localStorage.setItem('user', JSON.stringify({
   name: 'Wade Warren',
   avatarLink: 'img/avatar.png',
 }));
-localStorage.setItem('favouriteItemsAmount', '3');
+localStorage.setItem('favouriteItemsAmount', '5');
 
 window.addEventListener('DOMContentLoaded', () => {
-  const user = getUser(JSON.parse(localStorage.getItem('user')));
-  renderUserBlock(user.name, 'img/avatar.png',  3)
+  const user = getUser(localStorage.getItem('user'));
+  const favouriteItemsAmount = getFavoriteItemAmount(localStorage.getItem('favouriteItemsAmount'))
+  renderUserBlock(user.name, user.avatarLink,  favouriteItemsAmount)
   renderSearchFormBlock()
   renderSearchStubBlock()
   renderToast(
@@ -32,30 +33,29 @@ class User {
   }
 }
 
-function getUser(user : unknown) : User {
+function getUser(data : unknown) : User {
   let name  = 'Stranger';
   let avatarLink = '';
-  if (user === null) {
+  if (data === null) {
     return new User(name, avatarLink);
   }
-  if (user instanceof Object) {
-    const has = Object.prototype.hasOwnProperty;
+  if (typeof data === 'string') {
+    const user = JSON.parse(data);
     if (user.name) {
       name = user.name
     }
+    if (user.avatarLink) {
+      avatarLink = user.avatarLink
+    }
   }
-
-
-
-
-  // const userFromLS : unknown = JSON.parse(localStorage.getItem('user'));
-  // const has = Object.prototype.hasOwnProperty;
-  // let name : string;
-  // let avatarLink : string;
-  // typeof userFromLS.name === 'string' ? name = userFromLS : name = 'Stranger'
-  // const user : User;
-  // return user;
+  return new User(name, avatarLink);
 }
 
-
-
+function getFavoriteItemAmount(data : unknown) : number {
+  if (data === null) {
+    return 0;
+  }
+  if (typeof data === 'string') {
+    return Number(data);
+  }
+}

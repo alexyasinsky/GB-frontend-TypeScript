@@ -2,14 +2,13 @@ import { renderBlock } from './lib.js';
 
 import {currentDate, lastDayOfNextMonthDate, getDayAfterTomorrowDate} from './date.js';
 
-
-
-export function renderSearchFormBlock (checkInDate : string=currentDate, checkOutDate: string=lastDayOfNextMonthDate) : void {
+export function renderSearchFormBlock (minDate : string=currentDate, maxDate: string=lastDayOfNextMonthDate) : void {
   const dayAfterTomorrowDate = getDayAfterTomorrowDate(currentDate);
+ 
   renderBlock(
     'search-form-block',
     `
-    <form>
+    <form id='search'>
       <fieldset class="search-filedset">
         <div class="row">
           <div>
@@ -25,22 +24,47 @@ export function renderSearchFormBlock (checkInDate : string=currentDate, checkOu
         <div class="row">
           <div>
             <label for="check-in-date">Дата заезда</label>
-            <input id="check-in-date" type="date" value=${checkInDate} min=${checkInDate} max=${checkOutDate} name="checkin" />
+            <input id="check-in-date" type="date" value=${minDate} min=${minDate} max=${maxDate} name="checkin" />
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value=${dayAfterTomorrowDate} min=${checkInDate} max=${checkOutDate} name="checkout" />
+            <input id="check-out-date" type="date" value=${dayAfterTomorrowDate} min=${minDate} max=${maxDate} name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
             <input id="max-price" type="text" value="" name="price" class="max-price" />
           </div>
           <div>
-            <div><button>Найти</button></div>
+            <div><button type="submit">Найти</button></div>
           </div>
         </div>
       </fieldset>
     </form>
     `
   )
+
+  const form : HTMLFormElement = document.forms.namedItem('search');
+  form.addEventListener('submit', (event) : void => {
+    event.preventDefault();
+
+    const query : SearchFormData = {
+      city : form.elements,
+      checkInDate: form.elements.namedItem('chekin'),
+      checkOutDate: form.elements.namedItem('checkout'),
+      maxPrice: form.elements.namedItem('price'),
+    }
+    search(query);
+  });
+  
+}
+
+interface SearchFormData {
+  city: HTMLInputElement
+  checkInDate: Element | RadioNodeList;
+  checkOutDate: Element | RadioNodeList;
+  maxPrice: Element | RadioNodeList;
+}
+
+function search(query : SearchFormData) : void {
+  console.log(query);
 }

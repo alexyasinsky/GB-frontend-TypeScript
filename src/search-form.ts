@@ -13,7 +13,7 @@ export function renderSearchFormBlock (minDate : string=currentDate, maxDate: st
         <div class="row">
           <div>
             <label for="city">Город</label>
-            <input id="city" type="text" disabled value="Санкт-Петербург" />
+            <input id="city" name=city type="text" disabled value="Санкт-Петербург" />
             <input type="hidden" disabled value="59.9386,30.3141" />
           </div>
           <!--<div class="providers">
@@ -44,27 +44,39 @@ export function renderSearchFormBlock (minDate : string=currentDate, maxDate: st
   )
 
   const form : HTMLFormElement = document.forms.namedItem('search');
-  form.addEventListener('submit', (event) : void => {
+  form.addEventListener('submit', (event : Event) : void => {
     event.preventDefault();
-
-    const query : SearchFormData = {
-      city : form.elements,
-      checkInDate: form.elements.namedItem('chekin'),
-      checkOutDate: form.elements.namedItem('checkout'),
-      maxPrice: form.elements.namedItem('price'),
-    }
-    search(query);
+    const {
+      city, checkin, checkout, price
+    } = parseFormForValues(form);
+    search({
+      city,
+      checkInDate: checkin,
+      checkOutDate: checkout,
+      maxPrice: price,
+    });
   });
   
 }
 
-interface SearchFormData {
-  city: HTMLInputElement
-  checkInDate: Element | RadioNodeList;
-  checkOutDate: Element | RadioNodeList;
-  maxPrice: Element | RadioNodeList;
+const parseFormForValues = (form : HTMLFormElement) => {
+  const values: Record<string, string | undefined> = {};
+  for (const item of form.elements) {
+    const input = item as HTMLInputElement;
+    if (input.name) {
+      values[input.name] = input.value;
+    }
+  }
+  return values;
 }
 
 function search(query : SearchFormData) : void {
   console.log(query);
+}
+
+interface SearchFormData {
+  city: string;
+  checkInDate: string;
+  checkOutDate: string;
+  maxPrice: string;
 }

@@ -1,18 +1,18 @@
 import { renderBlock } from './lib.js'
 
-export function renderSearchStubBlock () {
+export function renderSearchStubBlock () : void {
   renderBlock(
     'search-results-block',
     `
     <div class="before-results-block">
-      <img src="img/start-search.png" />
+      <img src="img/start-search.png" alt="start-search"/>
       <p>Чтобы начать поиск, заполните форму и&nbsp;нажмите "Найти"</p>
     </div>
     `
   )
 }
 
-export function renderEmptyOrErrorSearchBlock (reasonMessage) {
+export function renderEmptyOrErrorSearchBlock (reasonMessage) : void {
   renderBlock(
     'search-results-block',
     `
@@ -24,7 +24,7 @@ export function renderEmptyOrErrorSearchBlock (reasonMessage) {
   )
 }
 
-export function renderSearchResultsBlock () {
+export function renderSearchResultsBlock () : void{
   renderBlock(
     'search-results-block',
     `

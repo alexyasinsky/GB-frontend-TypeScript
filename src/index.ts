@@ -1,5 +1,5 @@
 import { renderSearchFormBlock } from './search-form'
-import { renderSearchStubBlock } from './search-results'
+import {renderSearchStubBlock} from './search-results'
 import { renderUserBlock } from './user'
 import { renderToast } from './lib'
 

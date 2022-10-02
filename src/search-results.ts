@@ -1,4 +1,5 @@
 import { renderBlock } from './lib'
+import {renderUserBlock} from './user';
 
 export function renderSearchStubBlock () : void {
   renderBlock(
@@ -30,7 +31,7 @@ export function renderSearchResultsBlock (results) : void{
     html += `<li class="result">
         <div class="result-container">
           <div class="result-img-container">
-            <div class="favorites"></div>
+            <div class="favorites inactive"></div>
             <img class="result-img" src="./img/result-1.png" alt="">
           </div>	
           <div class="result-info">
@@ -90,4 +91,23 @@ export function renderSearchResultsBlock (results) : void{
     </ul>
     `
   )
+  const favoriteButtons = document.querySelectorAll('.favorites');
+
+  favoriteButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const amount : number = +localStorage.getItem('favoriteItemsAmount');
+      if (button.classList.contains('active')) {
+        button.classList.remove('active');
+        button.classList.add('inactive');
+        localStorage.setItem('favoriteItemsAmount', String(amount - 1));
+      } else {
+        button.classList.remove('inactive');
+        button.classList.add('active');
+        localStorage.setItem('favoriteItemsAmount', String(amount + 1));
+      }
+      renderUserBlock();
+    });
+  });
+
+
 }

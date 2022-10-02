@@ -1,7 +1,7 @@
-import { renderSearchFormBlock } from './search-form.js'
-import { renderSearchStubBlock } from './search-results.js'
-import { renderUserBlock } from './user.js'
-import { renderToast } from './lib.js'
+import { renderSearchFormBlock } from './search-form'
+import { renderSearchStubBlock } from './search-results'
+import { renderUserBlock } from './user'
+import { renderToast } from './lib'
 
 localStorage.setItem('user', JSON.stringify({
   name: 'Wade Warren',

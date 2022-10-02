@@ -1,4 +1,4 @@
-import { renderBlock } from './lib.js'
+import { renderBlock } from './lib'
 
 export function renderSearchStubBlock () : void {
   renderBlock(

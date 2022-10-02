@@ -1,6 +1,6 @@
-import { renderBlock } from './lib.js';
+import { renderBlock } from './lib';
 
-import {currentDate, lastDayOfNextMonthDate, getDayAfterTomorrowDate} from './date.js';
+import {currentDate, lastDayOfNextMonthDate, getDayAfterTomorrowDate} from './date';
 
 export function renderSearchFormBlock (minDate : string=currentDate, maxDate: string=lastDayOfNextMonthDate) : void {
   const dayAfterTomorrowDate = getDayAfterTomorrowDate(currentDate);
@@ -70,8 +70,12 @@ const parseFormForValues = (form : HTMLFormElement) => {
   return values;
 }
 
-function search(query : SearchFormData) : void {
-  console.log(query);
+async function search(query : SearchFormData) {
+  const checkInDate = new Date(query.checkInDate).valueOf();
+  const checkOutDate = new Date(query.checkOutDate).valueOf();
+  const response = await fetch(`/api/places?coordinates=59.9386,30.3141&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}` );
+  const result = await response.json();
+  console.log(result);
 }
 
 interface SearchFormData {

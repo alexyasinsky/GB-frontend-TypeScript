@@ -7,7 +7,7 @@ localStorage.setItem('user', JSON.stringify({
   name: 'Wade Warren',
   avatarLink: 'img/avatar.png',
 }));
-localStorage.setItem('favoriteItemsAmount', '0');
+// localStorage.setItem('favoriteItemsAmount', '0');
 
 window.addEventListener('DOMContentLoaded', () => {
   renderUserBlock()

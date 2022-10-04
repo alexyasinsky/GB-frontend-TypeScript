@@ -2,7 +2,7 @@ import { renderBlock } from './lib'
 
 export function renderUserBlock () : void {
   const user = getUser(localStorage.getItem('user'));
-  const favoriteItemsAmount = getFavoriteItemAmount(localStorage.getItem('favoriteItemsAmount'))
+  const favoriteItemsAmount = getFavoriteItemAmount(localStorage.getItem('favoriteItems'))
   const favoritesCaption : number | string = favoriteItemsAmount ? favoriteItemsAmount : 'ничего нет'
 
   renderBlock(
@@ -45,7 +45,8 @@ function getFavoriteItemAmount(data : unknown) : number {
     return 0;
   }
   if (typeof data === 'string') {
-    return Number(data);
+    const favoriteItems = JSON.parse(data);
+    return favoriteItems.length;
   }
 }
 

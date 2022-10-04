@@ -31,7 +31,7 @@ export function renderSearchResultsBlock (results) : void{
     html += `<li class="result">
         <div class="result-container">
           <div class="result-img-container">
-            <div class="favorites inactive"></div>
+            <div class="favorites inactive" data-id=${result.id} data-name=${result.name} data-image="${result.image}"></div>
             <img class="result-img" src="./img/result-1.png" alt="">
           </div>	
           <div class="result-info">
@@ -95,19 +95,40 @@ export function renderSearchResultsBlock (results) : void{
 
   favoriteButtons.forEach(button => {
     button.addEventListener('click', () => {
-      const amount : number = +localStorage.getItem('favoriteItemsAmount');
-      if (button.classList.contains('active')) {
-        button.classList.remove('active');
-        button.classList.add('inactive');
-        localStorage.setItem('favoriteItemsAmount', String(amount - 1));
-      } else {
-        button.classList.remove('inactive');
-        button.classList.add('active');
-        localStorage.setItem('favoriteItemsAmount', String(amount + 1));
-      }
-      renderUserBlock();
+      toggleFavoriteItem(button);
     });
   });
+}
 
+function toggleFavoriteItem(button) : void {
+  const data = localStorage.getItem('favoriteItems');
+  let favoriteItems = [];
+  if (typeof (data) === 'string') {
+    favoriteItems = JSON.parse(data);
+  }
+  localStorage.removeItem('favoriteItems');
+  if (button.classList.contains('active')) {
+    button.classList.remove('active');
+    button.classList.add('inactive');
+    const id = favoriteItems.findIndex(item => item.id === button.dataset.id);
+    favoriteItems.splice(id, 1);
+    localStorage.setItem('favoriteItems', JSON.stringify(favoriteItems));
+  } else {
+    button.classList.remove('inactive');
+    button.classList.add('active');
+    const item : FavoriteItem = {
+      id: button.dataset.id,
+      name: button.dataset.name,
+      image: button.dataset.image
+    }
+    favoriteItems.push(item);
+    localStorage.setItem('favoriteItems', JSON.stringify(favoriteItems));
+  }
+  renderUserBlock();
+}
 
+interface FavoriteItem {
+  id: string,
+  name: string,
+  image: string
 }

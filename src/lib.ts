@@ -13,7 +13,7 @@ interface IAction {
   handler(): void 
 }
 
-export function renderToast (message : IMessage, action : IAction) {
+export function renderToast (message : IMessage, action? : IAction) {
   let messageText = ''
   
   if (message != null) {
@@ -36,7 +36,7 @@ export function renderToast (message : IMessage, action : IAction) {
       if (action != null && action.handler != null) {
         action.handler()
       }
-      renderToast(null, null)
+      renderToast(null)
     }
   }
 }

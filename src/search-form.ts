@@ -1,6 +1,7 @@
-import { renderBlock } from './lib.js';
+import { renderBlock } from './lib';
 
-import {currentDate, lastDayOfNextMonthDate, getDayAfterTomorrowDate} from './date.js';
+import {currentDate, lastDayOfNextMonthDate, getDayAfterTomorrowDate} from './date';
+import {renderEmptyOrErrorSearchBlock, renderSearchResultsBlock} from './search-results';
 
 export function renderSearchFormBlock (minDate : string=currentDate, maxDate: string=lastDayOfNextMonthDate) : void {
   const dayAfterTomorrowDate = getDayAfterTomorrowDate(currentDate);
@@ -32,7 +33,7 @@ export function renderSearchFormBlock (minDate : string=currentDate, maxDate: st
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>
-            <input id="max-price" type="text" value="" name="price" class="max-price" />
+            <input id="max-price" type="text" value="" name="price" class="max-price" required/>
           </div>
           <div>
             <div><button type="submit">Найти</button></div>
@@ -70,8 +71,16 @@ const parseFormForValues = (form : HTMLFormElement) => {
   return values;
 }
 
-function search(query : SearchFormData) : void {
-  console.log(query);
+async function search(query : SearchFormData) {
+  const checkInDate = new Date(query.checkInDate).valueOf();
+  const checkOutDate = new Date(query.checkOutDate).valueOf();
+  try {
+    const response = await fetch(`/api/places?coordinates=59.9386,30.3141&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&maxPrice=${query.maxPrice}` );
+    const results : PlaceCollection | [] = await response.json();
+    results.length !== 0 ? renderSearchResultsBlock(results) : renderEmptyOrErrorSearchBlock('Нет подходящих вариантов');
+  } catch (err) {
+    renderEmptyOrErrorSearchBlock(err)
+  }
 }
 
 interface SearchFormData {
@@ -79,4 +88,18 @@ interface SearchFormData {
   checkInDate: string;
   checkOutDate: string;
   maxPrice: string;
+}
+
+interface PlaceCollection {
+  [key: string]: Place
+}
+
+interface Place {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  remoteness: number,
+  bookedDates: number[],
+  price: number
 }

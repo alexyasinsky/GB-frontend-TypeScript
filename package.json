@@ -1,12 +1,16 @@
 {
   "name": "gb-frontend-typescript",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "build": "rd -r public\\scripts 2>null & tsc",
     "develop": "rd -r public\\scripts 2>null & tsc -p tsconfig-dev.json",
     "start": "http-server -с-1 -p 3000",
     "lint": "eslint src --ext .js --ext .ts",
-    "lint-fix": "eslint src --ext .js --ext .ts --fix"
+    "lint-fix": "eslint src --ext .js --ext .ts --fix",
+    "webpack-build": "webpack --mode development",
+    "webpack-dev": "webpack --mode development && webpack serve",
+    "api": "nodemon server/dist"
   },
   "repository": {
     "type": "git",
@@ -22,6 +26,16 @@
     "@typescript-eslint/parser": "^5.38.0",
     "eslint": "^8.23.1",
     "http-server": "^14.1.1",
-    "typescript": "^4.8.3"
+    "nodemon": "^2.0.20",
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.8.3",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "*.json"
+    ]
   }
 }

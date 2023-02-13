@@ -1,10 +1,9 @@
 import { renderBlock } from './lib';
 
-import {currentDate, lastDayOfNextMonthDate, getDayAfterTomorrowDate} from './date';
+import {nowDateString, lastDayOfNextMonthDateString, dayAfterTomorrowDateString} from './date';
 import {renderEmptyOrErrorSearchBlock, renderSearchResultsBlock} from './search-results';
 
-export function renderSearchFormBlock (minDate : string=currentDate, maxDate: string=lastDayOfNextMonthDate) : void {
-  const dayAfterTomorrowDate = getDayAfterTomorrowDate(currentDate);
+export function renderSearchFormBlock (minDate : string=nowDateString, maxDate: string=lastDayOfNextMonthDateString) : void {
  
   renderBlock(
     'search-form-block',
@@ -29,7 +28,7 @@ export function renderSearchFormBlock (minDate : string=currentDate, maxDate: st
           </div>
           <div>
             <label for="check-out-date">Дата выезда</label>
-            <input id="check-out-date" type="date" value=${dayAfterTomorrowDate} min=${minDate} max=${maxDate} name="checkout" />
+            <input id="check-out-date" type="date" value=${dayAfterTomorrowDateString} min=${minDate} max=${maxDate} name="checkout" />
           </div>
           <div>
             <label for="max-price">Макс. цена суток</label>

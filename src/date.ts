@@ -1,11 +1,25 @@
-const now : Date = new Date();
+const now = new Date();
+const lastDayOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 0);
+const dayAfterTomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 2);
 
-export const currentDate : string = now.toLocaleDateString('en-ca');
+export const nowDateString : string = dateFormatter(now, '-');
 
-export const lastDayOfNextMonthDate : string = new Date(now.getFullYear(), now.getMonth() + 2, 0).toLocaleDateString('en-ca');
+export const lastDayOfNextMonthDateString : string = dateFormatter(lastDayOfNextMonth, '-');
 
-export function getDayAfterTomorrowDate(dateString) {
-  const date = new Date(dateString);
-  const dayAfterTomorrowDate: string = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 2).toLocaleDateString('en-ca');
-  return dayAfterTomorrowDate;
+export const dayAfterTomorrowDateString = dateFormatter(dayAfterTomorrow, '-');
+
+function dateFormatter(date, separator) {
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  if (day < 10) {
+    day = '0' + day;
+  }
+
+  if (month < 10) {
+    month = '0' + month;
+  }
+
+  return `${year}${separator}${month}${separator}${day}`;
 }
